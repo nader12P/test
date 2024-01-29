@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool "sonarscanner"
+        SONAR_SCANNER_HOME = tool "sonarqube"
         SONAR_PROJECT = 'spring-boot-app'
         SONAR_HOST = 'http://34.203.243.23:9000'
     }
