@@ -8,10 +8,6 @@ pipeline {
                     sh 'sudo ./gradlew dependencies'
                     sh 'sudo ./gradlew build --stacktrace'
                     sh 'sudo ./gradlew test'
-                }
-            }
-            steps {
-                script {
                     sh 'rm -rf build'
                 }
             }
