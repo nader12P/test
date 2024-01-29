@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sh 'chmod 600 ./gradlew'
+                    sh 'chmod 777 ./gradlew'
                     sh './gradlew dependencies'
                     sh './gradlew build --stacktrace'
                     sh './gradlew test'
