@@ -5,10 +5,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sh 'sudo ./gradlew dependencies'
-                    sh 'sudo ./gradlew build --stacktrace'
-                    sh 'sudo ./gradlew test'
-                    sh 'sudo rm -rf build'
+                    sh 'sudo chmod +x ./gradlew'
+                    sh './gradlew dependencies'
+                    sh './gradlew build --stacktrace'
+                    sh './gradlew test'
+                    sh 'rm -rf build'
                 }
             }
         }
