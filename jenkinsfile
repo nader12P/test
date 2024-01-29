@@ -9,7 +9,6 @@ pipeline {
                     sh './gradlew dependencies'
                     sh './gradlew build --stacktrace'
                     sh './gradlew test'
-                    sh 'rm -rf build'
                 }
             }
         }
