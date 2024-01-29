@@ -5,9 +5,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sh 'sudo ./gradlew dependencies'
-                    sh 'sudo ./gradlew build --stacktrace'
-                    sh 'sudo ./gradlew test'
+                    sh './gradlew dependencies'
+                    sh './gradlew build --stacktrace'
+                    sh './gradlew test'
                     sh 'rm -rf build'
                 }
             }
