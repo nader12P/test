@@ -1,8 +1,14 @@
 pipeline {
     agent any
 
+    enviroment {
+        SONAR_SCANNER_HOME = tool "sonarscanner"
+        SONAR_PROJECT = 'spring-boot-app'
+        SONAR_HOST = 'http://44.202.126.174:9000'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Build and unit test') {
             steps {
                 script {
                     sh 'chmod 777 ./gradlew'
@@ -11,6 +17,17 @@ pipeline {
                     sh './gradlew test'
                     sh 'rm -rf build'
                 }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run SonarQube analysis
+                    withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
+                        sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -X -Dsonar.projectKey=${SONAR_PROJECT} -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} -Dsonar.scm.provider=git -Dsonar.java.binaries=build/classes" 
+                    }                
+                }
+                
             }
         }
     }
