@@ -7,6 +7,11 @@ pipeline {
         SONAR_HOST = 'http://52.87.152.139:9000'
         DOCKER_IMAGE = 'spring-boot-app'
         DOCKER_REGISTERY = 'docker.io/nader12bp'
+        OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
+        OPENSHIFT_PROJECT = 'nader'
+        APP_SERVICE_NAME = 'spring-boot-app'
+        APP_PORT = '8080'
+        APP_HOST_NAME = 'spring-boot-app.apps.ocpuat.devopsconsulting.org'
     }
 
     stages {
@@ -29,21 +34,34 @@ pipeline {
         //             }                
         //         }   
         //     }
+        // // }
+        // stage('Build docker image') {
+        //     steps {
+        //         script {
+        //             sh 'docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER} .'
+        //         }
+        //     }
         // }
-        stage('Build docker image') {
+        // stage('Push docker image') {
+        //     steps {
+        //          withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
+                    
+        //             sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
+        //             sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+        //             sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+        //         }
+        //     }
+        // }
+        stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    sh 'docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER} .'
-                }
-            }
-        }
-        stage('Push docker image') {
-            steps {
-                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
-                    
-                    sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                    sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                    sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                    withCredentials([string(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
+                    sh "oc login --token=\${OPENSHIFT_SECRET} \${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
+                    }
+                    sh "oc project \${OPENSHIFT_PROJECT}"
+                    //sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} || true"
+                    sh "oc new-app \${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                    sh "oc create route edge --service \${APP_SERVICE_NAME} --port \${APP_PORT} --hostname \${APP_HOST_NAME} --insecure-policy Redirect"
                 }
             }
         }
