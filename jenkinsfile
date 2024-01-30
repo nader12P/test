@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
-                    sh "oc login --token=\${OPENSHIFT_SECRET} \${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
+                    sh "oc login --token=sha256~erq3XxgPk_rBSLdes2Ku2VhMJqISe_7ePPCSjVKca-8 \${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
                     }
                     sh "oc project \${OPENSHIFT_PROJECT}"
                     //sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} || true"
