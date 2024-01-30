@@ -45,7 +45,7 @@ pipeline {
 
                     sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
                     sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                }}
+                }
             }
         }
     }
