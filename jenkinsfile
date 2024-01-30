@@ -5,6 +5,8 @@ pipeline {
         SONAR_SCANNER_HOME = tool "sonarqube"
         SONAR_PROJECT = 'spring-boot'
         SONAR_HOST = 'http://52.87.152.139:9000'
+        DOCKER_IMAGE = 'spring-boot-app'
+        DOCKER_REGISTERY = 'docker.io/nader12P'
     }
 
     stages {
@@ -26,6 +28,13 @@ pipeline {
                         sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -X -Dsonar.projectKey=${SONAR_PROJECT} -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} -Dsonar.scm.provider=git  -Dsonar.java.binaries=build/classes" 
                     }                
                 }   
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                script {
+                    sh 'sudo docker build -t ${DOCKER_IMAGE} .'
+                }
             }
         }
     }
