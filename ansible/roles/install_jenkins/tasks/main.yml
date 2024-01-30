@@ -1,0 +1,40 @@
+---
+
+- name: Copy binary files for deployment
+  copy:
+    src: ../files/oc
+    dest: /home/ec2-user/
+    mode: 0755
+
+- name: Run Jenkins Docker Container
+  docker_container:
+    name: jenkins
+    image: jenkins/jenkins
+    detach: yes
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "~/jenkins:/var/jenkins_home"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/usr/bin/docker:/usr/bin/docker"
+      - "/home/ec2-user/oc:/usr/local/bin/oc"
+    user: "0"
+
+- name: Wait for the file to be created
+  shell: sleep 30
+
+- name: Debug Jenkins Admin Password
+  shell: docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+  register: jenkins_admin_password
+
+- name: Display Jenkins Container ID
+  debug:
+    var: jenkins_container.Id
+
+- name: Display Jenkins Admin Password
+  debug:
+    var: jenkins_admin_password.stdout
+
+
+
