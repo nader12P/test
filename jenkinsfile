@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    withEnv(["PATH+OC=$(tool 'oc')"]){
+                    withEnv(["PATH+OC=\$(tool 'oc')"]){
                         openshift.withCluster('ivolve-cluster') {
                             openshift.withProject('nader'){
                                 sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} || true"
