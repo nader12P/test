@@ -6,7 +6,7 @@ pipeline {
         SONAR_PROJECT = 'spring-boot'
         SONAR_HOST = 'http://52.87.152.139:9000'
         DOCKER_IMAGE = 'spring-boot-app'
-        DOCKER_REGISTERY = 'docker.io/nader12P'
+        DOCKER_REGISTERY = 'docker.io/nader12bp'
     }
 
     stages {
