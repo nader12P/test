@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
+                    withCredentials([file(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
                     sh "oc login --token=\${OPENSHIFT_SECRET} --server=\${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
                     }
                     sh "oc project \${OPENSHIFT_PROJECT}"
