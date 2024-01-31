@@ -11,8 +11,6 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'spring-boot-app'
-        DOCKER_REGISTERY = 'nader12bp'
         OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
         OPENSHIFT_PROJECT = 'nader'
         APP_SERVICE_NAME = 'spring-boot-app'
@@ -46,6 +44,13 @@ pipeline {
             steps {
                 script {
                     docker.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
+                }
+            }
+        }
+        stage('Push docker image') {
+            steps {
+                script {
+                    COMMIT_ID = docker.pushDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
                 }
             }
         }
