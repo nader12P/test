@@ -35,7 +35,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    sonarQube(SONAR_HOST, SONAR_PROJECT, SONAR_SCANNER_HOME)
+                    sonarQube(SONAR_HOST)
                 }
             }
         }
