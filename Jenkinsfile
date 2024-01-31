@@ -15,43 +15,43 @@ pipeline {
     }
 
     stages {
-        // stage('Build and unit test') {
-        //     steps {
-        //         script {
-        //             sh 'chmod 777 ./gradlew'
-        //             sh './gradlew dependencies'
-        //             sh './gradlew build --stacktrace'
-        //             sh './gradlew test'
-        //         }
-        //     }
-        // }
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //             // Run SonarQube analysis
-        //             withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
-        //                 sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -X -Dsonar.projectKey=${SONAR_PROJECT} -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} -Dsonar.scm.provider=git  -Dsonar.java.binaries=build/classes" 
-        //             }                
-        //         }   
-        //     }
-        // }
-        // stage('Build docker image') {
-        //     steps {
-        //         script {
-        //             sh 'docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER} .'
-        //         }
-        //     }
-        // }
-        // stage('Push docker image') {
-        //     steps {
-        //          withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
+        stage('Build and unit test') {
+            steps {
+                script {
+                    sh 'chmod 777 ./gradlew'
+                    sh './gradlew dependencies'
+                    sh './gradlew build --stacktrace'
+                    sh './gradlew test'
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run SonarQube analysis
+                    withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
+                        sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -X -Dsonar.projectKey=${SONAR_PROJECT} -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} -Dsonar.scm.provider=git  -Dsonar.java.binaries=build/classes" 
+                    }                
+                }   
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                script {
+                    sh 'docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER} .'
+                }
+            }
+        }
+        stage('Push docker image') {
+            steps {
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
                     
-        //             sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
-        //             sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-        //             sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-        //         }
-        //     }
-        // }
+                    sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                    sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                    sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                }
+            }
+        }
         stage('Deploy to openshift cluster') {
             steps {
                 script {
