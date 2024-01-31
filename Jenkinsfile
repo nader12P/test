@@ -1,12 +1,13 @@
 @Library('jenkins_lib@main') _
 
+def SONAR_SCANNER_HOME = tool "sonarqube"
+def SONAR_PROJECT = 'spring-boot'
+def SONAR_HOST = 'http://52.87.152.139:9000'
+
 pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool "sonarqube"
-        SONAR_PROJECT = 'spring-boot'
-        SONAR_HOST = 'http://52.87.152.139:9000'
         DOCKER_IMAGE = 'spring-boot-app'
         DOCKER_REGISTERY = 'nader12bp'
         OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
@@ -34,7 +35,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    sonarQube()         
+                    sonarQube(SONAR_SCANNER_HOME, SONAR_PROJECT, SONAR_HOST)
                 }   
             }
         }
