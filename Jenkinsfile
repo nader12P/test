@@ -4,7 +4,7 @@ pipeline {
     environment {
         SONAR_SCANNER_HOME = tool "sonarqube"
         SONAR_PROJECT = 'spring-boot'
-        SONAR_HOST = 'http://52.87.152.139:9000'
+        SONAR_HOST = 'http://54.91.99.36:9000'
         DOCKER_IMAGE = 'spring-boot-app'
         DOCKER_REGISTERY = 'nader12bp'
         OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
