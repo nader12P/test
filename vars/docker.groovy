@@ -4,9 +4,10 @@ def getCommitID() {
 
 def buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTRY) {
     script {
-        def COMMIT_ID = getCommitID()
-        sh "docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID} ."
-        return COMMIT_ID
+        sh "echo '${DOCKER_IMAGE}'"
+        // def COMMIT_ID = getCommitID()
+        // sh "docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID} ."
+        // return COMMIT_ID
     }
 }
 
