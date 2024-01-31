@@ -3,6 +3,9 @@
 def SONAR_PROJECT = 'spring-boot'
 def SONAR_HOST = 'http://54.91.99.36:9000'
 
+def DOCKER_IMAGE = 'spring-boot-app'
+def DOCKER_REGISTERY = 'nader12bp'
+
 pipeline {
     agent any
 
@@ -38,13 +41,13 @@ pipeline {
                 }   
             }
         }
-        // stage('Build docker image') {
-        //     steps {
-        //         script {
-        //             buildDockerImage()
-        //         }
-        //     }
-        // }
+        stage('Build docker image') {
+            steps {
+                script {
+                    buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY, ${BUILD_NUMBER})
+                }
+            }
+        }
         // stage('Push docker image') {
         //     steps {
         //         withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
