@@ -1,6 +1,5 @@
 @Library('jenkins_lib@main') _
 
-// def SONAR_SCANNER_HOME = tool "sonarqube"
 def SONAR_PROJECT = 'spring-boot'
 def SONAR_HOST = 'http://52.87.152.139:9000'
 
@@ -35,7 +34,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    sonarQube()         
+                       sonarQube(SONAR_HOST, SONAR_PROJECT)   
                 }   
             }
         }
