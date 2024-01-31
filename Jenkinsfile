@@ -1,10 +1,12 @@
+@Library('jenkins_lib@main') _
+
 pipeline {
     agent any
 
     environment {
         SONAR_SCANNER_HOME = tool "sonarqube"
         SONAR_PROJECT = 'spring-boot'
-        SONAR_HOST = 'http://54.91.99.36:9000'
+        SONAR_HOST = 'http://52.87.152.139:9000'
         DOCKER_IMAGE = 'spring-boot-app'
         DOCKER_REGISTERY = 'nader12bp'
         OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
@@ -15,54 +17,47 @@ pipeline {
     }
 
     stages {
-        // stage('Build and unit test') {
+        stage('Local Build') {
+            steps {
+                script {
+                    localBuild()
+                }
+            }
+        }
+        // stage('Unit Test') {
         //     steps {
         //         script {
-        //             sh 'chmod 777 ./gradlew'
-        //             sh './gradlew dependencies'
-        //             sh './gradlew build --stacktrace'
-        //             sh './gradlew test'
+        //             unitTest()
         //         }
         //     }
         // }
         // stage('SonarQube Analysis') {
         //     steps {
         //         script {
-        //             // Run SonarQube analysis
-        //             withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
-        //                 sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -X -Dsonar.projectKey=${SONAR_PROJECT} -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_TOKEN} -Dsonar.scm.provider=git  -Dsonar.java.binaries=build/classes" 
-        //             }                
+        //             sonarQube()         
         //         }   
         //     }
         // }
         // stage('Build docker image') {
         //     steps {
         //         script {
-        //             sh 'docker build -t ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER} .'
+        //             buildDockerImage()
         //         }
         //     }
         // }
         // stage('Push docker image') {
         //     steps {
-        //          withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
-                    
-        //             sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
-        //             sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
-        //             sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${BUILD_NUMBER}"
+        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
+        //             pushDockerImage()
         //         }
         //     }
         // }
-        stage('Deploy to openshift cluster') {
-            steps {
-                script {
-                    withCredentials([file(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
-                        sh "oc project \${OPENSHIFT_PROJECT} --kubeconfig=$OPENSHIFT_SECRET"
-                        sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} --kubeconfig=$OPENSHIFT_SECRET|| true"
-                        sh "oc new-app ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:15 --kubeconfig=$OPENSHIFT_SECRET"
-                        sh "oc expose svc/${DOCKER_IMAGE} --kubeconfig=$OPENSHIFT_SECRET"
-                    }
-                }
-            }
-        }
+        // stage('Deploy to openshift cluster') {
+        //     steps {
+        //         script {
+        //             createApp()
+        //         }
+        //     }
+        // }
     }
 }
