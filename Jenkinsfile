@@ -45,8 +45,6 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    COMMIT_ID = docker.getCommitID()
-                    sh 'echo ${COMMIT_ID}'
                     docker.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
                 }
             }
