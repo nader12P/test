@@ -24,13 +24,13 @@ pipeline {
                 }
             }
         }
-        // stage('Unit Test') {
-        //     steps {
-        //         script {
-        //             unitTest()
-        //         }
-        //     }
-        // }
+        stage('Unit Test') {
+            steps {
+                script {
+                    unitTest()
+                }
+            }
+        }
         // stage('SonarQube Analysis') {
         //     steps {
         //         script {
