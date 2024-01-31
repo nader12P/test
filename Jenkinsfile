@@ -5,6 +5,8 @@ def SONAR_HOST = 'http://54.91.99.36:9000'
 
 def DOCKER_IMAGE = 'spring-boot-app'
 def DOCKER_REGISTERY = 'nader12bp'
+def BUILD_NUMBER = ${BUILD_NUMBER}
+
 
 pipeline {
     agent any
@@ -19,32 +21,32 @@ pipeline {
         APP_HOST_NAME = 'spring-boot-app.apps.ocpuat.devopsconsulting.org'
     }
 
-    stages {
-        stage('Local Build') {
-            steps {
-                script {
-                    localBuild()
-                }
-            }
-        }
-        stage('Unit Test') {
-            steps {
-                script {
-                    unitTest()
-                }
-            }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                       sonarQube(SONAR_HOST, SONAR_PROJECT)   
-                }   
-            }
-        }
+    // stages {
+    //     stage('Local Build') {
+    //         steps {
+    //             script {
+    //                 localBuild()
+    //             }
+    //         }
+    //     }
+    //     stage('Unit Test') {
+    //         steps {
+    //             script {
+    //                 unitTest()
+    //             }
+    //         }
+    //     }
+    //     stage('SonarQube Analysis') {
+    //         steps {
+    //             script {
+    //                    sonarQube(SONAR_HOST, SONAR_PROJECT)   
+    //             }   
+    //         }
+    //     }
         stage('Build docker image') {
             steps {
                 script {
-                    buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY, ${BUILD_NUMBER})
+                    buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY, BUILD_NUMBER)
                 }
             }
         }
