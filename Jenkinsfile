@@ -21,28 +21,28 @@ pipeline {
         APP_HOST_NAME = 'spring-boot-app.apps.ocpuat.devopsconsulting.org'
     }
 
-    // stages {
-    //     stage('Local Build') {
-    //         steps {
-    //             script {
-    //                 localBuild()
-    //             }
-    //         }
-    //     }
-    //     stage('Unit Test') {
-    //         steps {
-    //             script {
-    //                 unitTest()
-    //             }
-    //         }
-    //     }
-    //     stage('SonarQube Analysis') {
-    //         steps {
-    //             script {
-    //                    sonarQube(SONAR_HOST, SONAR_PROJECT)   
-    //             }   
-    //         }
-    //     }
+    stages {
+        // stage('Local Build') {
+        //     steps {
+        //         script {
+        //             localBuild()
+        //         }
+        //     }
+        // }
+        // stage('Unit Test') {
+        //     steps {
+        //         script {
+        //             unitTest()
+        //         }
+        //     }
+        // }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //                sonarQube(SONAR_HOST, SONAR_PROJECT)   
+        //         }   
+        //     }
+        // }
         stage('Build docker image') {
             steps {
                 script {
