@@ -11,11 +11,11 @@ def buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTRY) {
 }
 
 def pushDockerImage(DOCKER_IMAGE, DOCKER_REGISTRY) {
+    def COMMIT_ID = getCommitID()
     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
-        def COMMIT_ID = getCommitID()
         sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
         sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID}"
         sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID}"
-        return COMMIT_ID
     }
+    return COMMIT_ID
 }
