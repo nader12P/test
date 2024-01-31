@@ -31,13 +31,13 @@ pipeline {
                 }
             }
         }
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //             sonarQube()         
-        //         }   
-        //     }
-        // }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    sonarQube()         
+                }   
+            }
+        }
         // stage('Build docker image') {
         //     steps {
         //         script {
