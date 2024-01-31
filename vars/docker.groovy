@@ -1,6 +1,3 @@
-def call() {
-    // Define functions and variables here
-}
 
 def getCommitID() {
     return sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
