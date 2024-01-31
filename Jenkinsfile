@@ -32,13 +32,6 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    sonarQube(SONAR_HOST)
-                }
-            }
-        }
         // stage('Build docker image') {
         //     steps {
         //         script {
