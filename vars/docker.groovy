@@ -16,5 +16,6 @@ def pushDockerImage(DOCKER_IMAGE, DOCKER_REGISTRY) {
         sh "echo \${DOCKER_REGISTRY_PASSWORD} | docker login -u \${DOCKER_REGISTRY_USERNAME} --password-stdin"
         sh "docker push ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID}"
         sh "docker rmi ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:${COMMIT_ID}"
+        return COMMIT_ID
     }
 }
