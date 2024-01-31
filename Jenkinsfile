@@ -34,9 +34,11 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    sonarQube(SONAR_HOST, SONAR_PROJECT, SONAR_SCANNER_HOME)
-                }   
+                node{
+                    script {
+                        sonarQube(SONAR_HOST, SONAR_PROJECT, SONAR_SCANNER_HOME)
+                    }   
+                }
             }
         }
         // stage('Build docker image') {
