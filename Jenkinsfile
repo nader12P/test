@@ -1,7 +1,7 @@
 @Library('jenkins_lib@main') _
 
 def SONAR_PROJECT = 'spring-boot'
-def SONAR_HOST = 'http://52.87.152.139:9000'
+def SONAR_HOST = 'http://54.91.99.36:9000'
 
 pipeline {
     agent any
