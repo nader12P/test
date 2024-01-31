@@ -5,7 +5,6 @@ def SONAR_HOST = 'http://54.91.99.36:9000'
 
 def DOCKER_IMAGE = 'spring-boot-app'
 def DOCKER_REGISTERY = 'nader12bp'
-def BUILD_NUMBER = ${BUILD_NUMBER}
 
 
 pipeline {
@@ -46,7 +45,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY, BUILD_NUMBER)
+                    COMMIT_ID = buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
                 }
             }
         }
