@@ -55,13 +55,13 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    openshift.withCluster('ivolve-cluster') {
-                        openshift.withProject('nader'){
-                            sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} || true"
-                            sh "oc new-app ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:15"
-                            sh "oc expose svc/${DOCKER_IMAGE}"
-                        }
+                    withCredentials([string(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
+                    sh "oc login --kubeconfig=\${OPENSHIFT_SECRET} --server=\${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
                     }
+                    sh "oc project nader --kubeconfig=\${OPENSHIFT_SECRET}"
+                    sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} --kubeconfig=\${OPENSHIFT_SECRET} || true"
+                    sh "oc new-app ${DOCKER_REGISTERY}/${DOCKER_IMAGE}:15 --kubeconfig=\${OPENSHIFT_SECRET}"
+                    sh "oc expose svc/${DOCKER_IMAGE} --kubeconfig=\${OPENSHIFT_SECRET}"
                 }
             }
         }
