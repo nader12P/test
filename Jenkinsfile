@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
+                    withCredentials([string(credentialsId: 'openShiftConfig', variable: 'OPENSHIFT_SECRET')]) {
                     sh "oc login --kubeconfig=\${OPENSHIFT_SECRET} --server=\${OPENSHIFT_SERVER} --insecure-skip-tls-verify"
                     }
                     sh "oc project nader --kubeconfig=\${OPENSHIFT_SECRET}"
