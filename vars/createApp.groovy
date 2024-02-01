@@ -1,4 +1,4 @@
-def call(COMMIT_ID) {
+def call(COMMIT_ID, DOCKER_IMAGE) {
     withCredentials([file(credentialsId: 'openshift', variable: 'OPENSHIFT_SECRET')]) {
         sh "oc project \${OPENSHIFT_PROJECT} --kubeconfig=$OPENSHIFT_SECRET"
         sh "oc delete dc,svc,deploy,ingress,route \${DOCKER_IMAGE} --kubeconfig=$OPENSHIFT_SECRET|| true"
