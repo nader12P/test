@@ -13,9 +13,6 @@ pipeline {
     environment {
         OPENSHIFT_SERVER = 'https://api.ocpuat.devopsconsulting.org:6443'
         OPENSHIFT_PROJECT = 'nader'
-        APP_SERVICE_NAME = 'spring-boot-app'
-        APP_PORT = '8080'
-        APP_HOST_NAME = 'spring-boot-app.apps.ocpuat.devopsconsulting.org'
     }
 
     stages {
@@ -57,7 +54,7 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    createApp(COMMIT_ID)
+                    createApp(COMMIT_ID, DOCKER_IMAGE)
                 }
             }
         }
