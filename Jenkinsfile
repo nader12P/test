@@ -43,7 +43,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    COMMIT_ID = docker.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
+                    docker.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTRY)
                 }
             }
         }
