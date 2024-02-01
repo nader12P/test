@@ -54,6 +54,7 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
+                    COMMIT_ID = dockerize.getCommitID()
                     createApp(COMMIT_ID, DOCKER_IMAGE)
                 }
             }
