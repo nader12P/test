@@ -54,19 +54,12 @@ pipeline {
                 }
             }
         }
-        // stage('Push docker image') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
-        //             pushDockerImage()
-        //         }
-        //     }
-        // }
-        // stage('Deploy to openshift cluster') {
-        //     steps {
-        //         script {
-        //             createApp()
-        //         }
-        //     }
-        // }
+        stage('Deploy to openshift cluster') {
+            steps {
+                script {
+                    createApp(COMMIT_ID)
+                }
+            }
+        }
     }
 }
