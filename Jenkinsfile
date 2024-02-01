@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     COMMIT_ID = dockerize.getCommitID()
-                    createApp(COMMIT_ID, DOCKER_IMAGE)
+                    createApp(COMMIT_ID, DOCKER_IMAGE, DOCKER_REGISTERY)
                 }
             }
         }
