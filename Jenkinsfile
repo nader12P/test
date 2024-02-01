@@ -37,20 +37,20 @@ pipeline {
         //         }   
         //     }
         // }
-        stage('Build docker image') {
-            steps {
-                script {
-                    dockerize.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
-                }
-            }
-        }
-        stage('Push docker image') {
-            steps {
-                script {
-                    COMMIT_ID = dockerize.pushDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
-                }
-            }
-        }
+        // stage('Build docker image') {
+        //     steps {
+        //         script {
+        //             dockerize.buildDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
+        //         }
+        //     }
+        // }
+        // stage('Push docker image') {
+        //     steps {
+        //         script {
+        //             COMMIT_ID = dockerize.pushDockerImage(DOCKER_IMAGE, DOCKER_REGISTERY)
+        //         }
+        //     }
+        // }
         stage('Deploy to openshift cluster') {
             steps {
                 script {
