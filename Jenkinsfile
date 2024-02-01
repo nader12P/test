@@ -16,27 +16,27 @@ pipeline {
     }
 
     stages {
-        // stage('Local Build') {
-        //     steps {
-        //         script {
-        //             localBuild()
-        //         }
-        //     }
-        // }
-        // stage('Unit Test') {
-        //     steps {
-        //         script {
-        //             unitTest()
-        //         }
-        //     }
-        // }
-        // stage('SonarQube Analysis') {
-        //     steps {
-        //         script {
-        //                sonarQube(SONAR_HOST, SONAR_PROJECT)   
-        //         }   
-        //     }
-        // }
+        stage('Local Build') {
+            steps {
+                script {
+                    localBuild()
+                }
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                script {
+                    unitTest()
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                       sonarQube(SONAR_HOST, SONAR_PROJECT)   
+                }   
+            }
+        }
         stage('Build docker image') {
             steps {
                 script {
@@ -54,7 +54,6 @@ pipeline {
         stage('Deploy to openshift cluster') {
             steps {
                 script {
-                    COMMIT_ID = dockerize.getCommitID()
                     createApp(COMMIT_ID, DOCKER_IMAGE, DOCKER_REGISTERY)
                 }
             }
